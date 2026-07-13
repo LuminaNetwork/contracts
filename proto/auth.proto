@@ -26,7 +26,8 @@ message RegisterResponse {
 message LoginResponse {
   oneof result {
     string access_token = 1;
-    EmailNotVerified email_not_verified = 2;
+    string refresh_token = 2;
+    EmailNotVerified email_not_verified = 3;
   }
 }
 

@@ -1,0 +1,36 @@
+name: Publish npm package
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    publish-npm:
+        name: Publish job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                node-version: 22
+                registry-url: "https://registry.npmjs.org"
+
+            - name: Install protoc
+              run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+            - name: Install packages
+              run: yarn install --frozen-lockfile
+
+            - name: Generate types
+              run: yarn generate
+
+            - name: Build
+              run: yarn run build
+
+            - name: Publish package
+              run: npm publish
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

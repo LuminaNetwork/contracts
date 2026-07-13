@@ -36,7 +36,8 @@ message EmailNotVerified {
 }
 
 message EmailVerifyRequest {
-  string otp_id = 1;
+  string account_id = 1;
+  string token = 2;
 }
 
 message AuthResponse {

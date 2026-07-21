@@ -3,44 +3,26 @@ syntax = "proto3";
 package auth.v1;
 
 service AuthService {
-  rpc Register(RegisterRequest) returns (RegisterResponse);
-  rpc Login(LoginRequest) returns (LoginResponse);
-  rpc EmailVerify(EmailVerifyRequest) returns (AuthResponse);
+  rpc RequestMagicLink(RequestMagicLinkRequest) returns (RequestMagicLinkResponse);
+  rpc VerifyMagicLink(VerifyMagicLinkRequest) returns (VerifyMagicLinkResponse);
 }
 
-message RegisterRequest {
-  string email = 1;
-  string password = 2;
-  string name = 3;
-}
-
-message LoginRequest {
-  string email = 1;
-  string password = 2;
-}
-
-message RegisterResponse {
-  string account_id = 1;
-}
-
-message LoginResponse {
-  oneof result {
-    string access_token = 1;
-    string refresh_token = 2;
-    EmailNotVerified email_not_verified = 3;
-  }
-}
-
-message EmailNotVerified {
+message RequestMagicLinkRequest {
   string email = 1;
 }
 
-message EmailVerifyRequest {
-  string account_id = 1;
-  string token = 2;
+message RequestMagicLinkResponse {}
+
+message VerifyMagicLinkRequest {
+  string token = 1;
 }
 
-message AuthResponse {
+message VerifyMagicLinkResponse {
   string access_token = 1;
   string refresh_token = 2;
+}
+
+message Account {
+  string id = 1;
+  string email = 2;
 }

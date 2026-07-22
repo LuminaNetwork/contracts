@@ -5,6 +5,7 @@ package auth.v1;
 service AuthService {
   rpc RequestMagicLink(RequestMagicLinkRequest) returns (RequestMagicLinkResponse);
   rpc VerifyMagicLink(VerifyMagicLinkRequest) returns (VerifyMagicLinkResponse);
+  rpc RefreshSession(RefreshSessionRequest) returns (RefreshSessionResponse);
 }
 
 message RequestMagicLinkRequest {
@@ -22,7 +23,22 @@ message VerifyMagicLinkResponse {
   string refresh_token = 2;
 }
 
-message Account {
-  string id = 1;
-  string email = 2;
+message RefreshSessionRequest {
+  string refresh_token = 1;
+}
+
+message RefreshSessionResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message LogoutRequest {
+  oneof identifier {
+    string refresh_token = 1;
+    string account_id = 2;
+  }
+}
+
+message LogoutResponse {
+  bool ok = 1;
 }
